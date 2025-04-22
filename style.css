@@ -1,0 +1,12 @@
+a {font-size: larger; font-weight: bolder; text-decoration: none;}
+a:link {color: red;}
+a:visited {color: red;}
+a:hover {color: green;}
+a:active {color: orange;}
+h2 {font-size: larger; font-weight: bolder;}
+body {font-family: 'Courier';}
+button {
+  font-family: inherit;
+  font-size: 1em;
+  
+}
