@@ -38,7 +38,7 @@
                     echo "<button style='width:15em;; background-color:rgb(".$colors["_"][$value["status"]].")' onclick='start(\"".$key."\")'>▶<br>".$key."</button>";
                 }
                 if ($value["binStatus"] != "false") {
-                    echo "<button style='width:15em;; background-color:rgb(".$colors["bin"][$value["binStatus"]].")' onclick='start(\"bin".strtoupper($key[0]).substr($key,1)."\")'>▶<br>BIN:".$key."</button>";
+                    echo "<button style='width:17em;; background-color:rgb(".$colors["bin"][$value["binStatus"]].")' onclick='start(\"bin".strtoupper($key[0]).substr($key,1)."\")'>▶<br>BIN:".$key."</button>";
                 }
                 echo "<div></div>";
             }

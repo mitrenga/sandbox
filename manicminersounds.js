@@ -3730,13 +3730,14 @@ class AudioHandler {
     'C0C0C5C0C0C0C5C0F0C0C0C0F2C0C0C0C2C0C0C0C0E8C0C0C4D8DCD8C0C0C0C0'+ 
     'C0C0C5C0C0C0C5C0C0C0C0C0C0C0C0C0C0C0C0C0E8E8E8C0C4C0C0C4C4C0C0C0';
 
-  buffer = null;
-
   constructor() {
-      this.isActive = false;
-      this.startTime = 0;
-      this.playing = false;
-      this.frames = 0;
+    this.buffer = null;
+    this.pos = 0;
+    this.source = '';
+    this.isActive = false;
+    this.startTime = 0;
+    this.playing = false;
+    this.frames = 0;
   } // constructor
 
   start() {
@@ -3772,15 +3773,15 @@ class AudioHandler {
   } // start
 
   stop() {
-      this.scriptNode.disconnect(this.audioContext.destination);
-      this.audioContext.close();
+    this.scriptNode.disconnect(this.audioContext.destination);
+    this.audioContext.close();
   } // stop
   
   getSoundData(pos) {
     if (this.playing) {
       document.getElementById('log').innerHTML = 'playing (sampleRate: '+audioHandler.audioContext.sampleRate+') -> '+(Date.now()-this.startTime)/1000+' sec';
     }
-    switch (window.source) {
+    switch (this.source) {
       case 'introMusic': 
         return this.introMusicPlay(pos);
       case 'binIntroMusic': 
@@ -4251,14 +4252,15 @@ class AudioHandler {
 
 } // class AudioHandler
 
-var audioHandler = null;
-var source = null;
 
-function start(newSource)
+
+var audioHandler = null;
+
+function start(source)
 {
-  source = newSource;
   if (!audioHandler) {
     audioHandler = new AudioHandler();
+    audioHandler.source = source;
     audioHandler.start();
     audioHandler.buffer = new Float32Array(2000000);
   } else
@@ -4270,11 +4272,13 @@ function start(newSource)
     if (audioHandler.audioContext.state === "interrupted" ) {
       audioHandler = null;
       audioHandler = new AudioHandler();
+      audioHandler.source = source;
       audioHandler.start();
       audioHandler.buffer = new Float32Array(2000000);
       }
   }
   audioHandler.pos = 0;
+  audioHandler.source = source;
   audioHandler.playing = true;
   audioHandler.startTime = Date.now();
 }

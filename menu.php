@@ -11,10 +11,11 @@
             $buttons = [
                 "manicminersounds" => ["icon" => "♫", "text" => "MANIC MINER", "color" => "gold"],
                 "jetsetwillysounds" => ["icon" => "♫", "text" => "JET SET WILLY", "color" => "gold"],
+                "music" => ["icon" => "♫", "text" => "MUSIC", "color" => "orange"],
                 "convert" => ["icon" => "⿻", "text" => "CONVERT", "color" => "plum"]
             ];
             foreach($buttons as $key => $value) {
-                echo "<button style='width:15em;; background-color: ".$value["color"]."' onclick=window.location.href='".$webURL.$key."'><b><big><big>".$value["icon"]."</big></big></b> ".$value["text"]."</button><p></p>";
+                echo "<button style='width:17em;; background-color: ".$value["color"]."' onclick=window.location.href='".$webURL.$key."'><b><big><big>".$value["icon"]."</big></big></b> ".$value["text"]."</button><p></p>";
             }
         ?>
     </body>
