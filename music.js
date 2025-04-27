@@ -128,6 +128,8 @@ class AudioHandler {
   }
   
   constructor() {
+    this.buffer = [];
+    this.pos = 0;
     this.source = '';
     this.isActive = false;
     this.startTime = 0;
@@ -141,11 +143,15 @@ class AudioHandler {
 
     this.isActive = true;
     switch (this.source) {
-      case 'ovcaciCtveraci' : 
-        this.playMusic(this, this.makeBuffer(this.ovcaciCtveraciData), 0);
+      case 'ovcaciCtveraci' :
+        this.buffer = this.makeBuffer(this.ovcaciCtveraciData);
+        this.pos = 0; 
+        this.playMusic(this);
         break;
       case 'inTheHallOfTheMountainKing' :
-        this.playMusic(this, this.makeBuffer(this.inTheHallOfTheMountainKingData), 0);
+        this.buffer = this.makeBuffer(this.inTheHallOfTheMountainKingData);
+          this.pos = 0; 
+          this.playMusic(this);
         break;
     }
   } // start
@@ -188,24 +194,25 @@ class AudioHandler {
     return buffer;
   } // makeBuffer
   
-  playMusic(self, buffer, musicPos) {
-    if (buffer.hasOwnProperty(musicPos)) {
-      buffer[musicPos].forEach((tone) => {
-        self.playTone(self, buffer, tone);
+  playMusic(self) {
+    if (self.buffer.hasOwnProperty(self.pos)) {
+      self.buffer[self.pos].forEach((tone) => {
+        self.playTone(self, tone);
       });
     }
   
     setTimeout(
       function() {
-        if (musicPos < buffer.length) {
-          self.playMusic(self, buffer, musicPos+1);
+        if (self.pos < self.buffer.length) {
+          self.pos++;
+          self.playMusic(self);
         }
       },
-      buffer['durationOfBeats']
+      self.buffer['durationOfBeats']
     );
   } // playMusic
   
-  playTone(self, buffer, toneData) {
+  playTone(self, toneData) {
     var toneFrequency = 0;
     if (toneData['tone'] != '_') {
       if (typeof (toneData['tone']) == 'number') {
@@ -219,7 +226,7 @@ class AudioHandler {
         toneFrequency = this.tonesMap[octave][tone];
       }
     }
-    var toneLength = toneData['length']*buffer['durationOfBeats']*(1-buffer['gap']); // miliseconds
+    var toneLength = toneData['length']*self.buffer['durationOfBeats']*(1-self.buffer['gap']); // miliseconds
 
     if (toneFrequency != 0) {
       var gainNode = self.audioContext.createGain();
@@ -227,7 +234,7 @@ class AudioHandler {
 
       oscillator.frequency.value = toneFrequency; // 40..6000
 
-      self.applyEnvelope(oscillator);
+      self.applyEnvelope(oscillator, gainNode, toneLength);
 
       oscillator.connect(gainNode);
       gainNode.connect(self.audioContext.destination);
@@ -242,12 +249,43 @@ class AudioHandler {
           gainNode.disconnect(self.audioContext.destination);
         }
       },
-      toneData['length']*buffer['durationOfBeats'] // toneLength
+      toneData['length']*self.buffer['durationOfBeats'] // toneLength
     );
 } // playTone
 
-applyEnvelope(oscillator) {
+applyEnvelope(oscillator, gainNode, toneLength) {
+  // varianta 1
   //oscillator.type = 'triangle'; //sine, square, triangle, sawtooth
+
+  // varianta 2
+  //const real = new Float32Array([0, 1, -1, 0.5, -0.5, 0.7, -0.7, 0.25, -0.25, 0.12, -0.12, 0.06, -0.06, 0.03, -0.03, 0]); // piano 2 B.E.S.T !!!
+  //const imag = new Float32Array(real.length);
+  //const customWave = this.audioContext.createPeriodicWave (real, imag);   
+  //oscillator.setPeriodicWave (customWave);
+
+  // varianta 2+
+  //const now = this.audioContext.currentTime;
+  //const volume = 0.3;
+  //gainNode.gain.setValueAtTime(1*volume, now);
+  //gainNode.gain.exponentialRampToValueAtTime(0.001*volume, now+1.2);
+
+  // varianta 3
+  const now = this.audioContext.currentTime;
+  const detuneOsc = this.audioContext.createOscillator();
+  const detuneGain = this.audioContext.createGain();
+  detuneOsc.frequency.setValueAtTime(0.1, now); // Frekvence rozladění (0.1 Hz)
+  detuneGain.gain.setValueAtTime(10, now);      // Amplituda rozladění v centech (10 centů)
+  detuneOsc.connect(detuneGain).connect(oscillator.detune);          // Připojení k detune parametru oscilátoru
+  detuneOsc.start();
+  const volume = 0.3;
+  gainNode.gain.setValueAtTime(0*volume, now);                    // Start na tichu
+  gainNode.gain.linearRampToValueAtTime(1*volume, now + 0.01);    // Rychlý attack (začátek tónu)
+  var diffLength = 0.0;
+  if (toneLength/1000 > 1.2) {
+    diffLength = toneLength/1000-0.6;
+  }
+  gainNode.gain.exponentialRampToValueAtTime(0.8*volume, now + 0.2 + diffLength); // Rychlý decay pro přirozený útlum
+  gainNode.gain.exponentialRampToValueAtTime(0.01*volume, now + 1.2 + diffLength);  // Pomalý release pro dozvuk
 } // applyEnvelope
 
 } // class AudioHandler
@@ -260,8 +298,6 @@ function start(source)
 {
   if (!audioHandler) {
     audioHandler = new AudioHandler();
-    audioHandler.source = source;
-    audioHandler.start();
   } else
   {
     document.getElementById('log').innerHTML = '--> '+audioHandler.audioContext.state;
@@ -271,12 +307,10 @@ function start(source)
     if (audioHandler.audioContext.state === "interrupted" ) {
       audioHandler = null;
       audioHandler = new AudioHandler();
-      audioHandler.source = source;
-      audioHandler.start();
-      }
+    }
   }
-  audioHandler.pos = 0;
   audioHandler.source = source;
   audioHandler.playing = true;
   audioHandler.startTime = Date.now();
+  audioHandler.start();
 }

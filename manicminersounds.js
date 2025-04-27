@@ -3735,7 +3735,6 @@ class AudioHandler {
     this.pos = 0;
     this.source = '';
     this.isActive = false;
-    this.startTime = 0;
     this.playing = false;
     this.frames = 0;
   } // constructor
@@ -3760,7 +3759,7 @@ class AudioHandler {
               if (this.playing)
               {
                 this.playing = false;
-                document.getElementById('log').innerHTML = 'total time: '+((Date.now()-this.startTime)/1000+' sec');
+                document.getElementById('log').innerHTML = 'total time: '+Math.round(((this.pos+x)/this.audioContext.sampleRate)*1000)/1000+' sec';
               }
             }
           }
@@ -3779,7 +3778,7 @@ class AudioHandler {
   
   getSoundData(pos) {
     if (this.playing) {
-      document.getElementById('log').innerHTML = 'playing (sampleRate: '+audioHandler.audioContext.sampleRate+') -> '+(Date.now()-this.startTime)/1000+' sec';
+      document.getElementById('log').innerHTML = 'playing (sampleRate: '+audioHandler.audioContext.sampleRate+') -> '+Math.round((this.pos/this.audioContext.sampleRate)*1000)/1000+' sec';
     }
     switch (this.source) {
       case 'introMusic': 
@@ -3839,7 +3838,6 @@ class AudioHandler {
           this.frames++;
         }
       }
-      this.startTime = Date.now();
     }
     if (pos > this.frames) {
       return false;
@@ -4280,5 +4278,4 @@ function start(source)
   audioHandler.pos = 0;
   audioHandler.source = source;
   audioHandler.playing = true;
-  audioHandler.startTime = Date.now();
 }
