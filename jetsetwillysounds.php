@@ -14,7 +14,7 @@
                 "bin" => ["ok" => "130, 182, 238", "false" => "157, 168, 179", "prepare" => "250, 127, 211", "empty" => "242, 242, 242"]
             ];
             $buttons = [
-                "introMusic" => ["status" => "prepare", "binStatus" => "ok"],
+                "introMusic" => ["status" => "ok", "binStatus" => "ok"],
                 "screechSound" => ["status" => "prepare", "binStatus" => "ok"],
                 "gameMusic7" => ["status" => "prepare", "binStatus" => "ok"],
                 "gameMusic6" => ["status" => "prepare", "binStatus" => "ok"],
@@ -30,7 +30,7 @@
                 "fallingSound" => ["status" => "prepare", "binStatus" => "ok"],
                 "crashSound" => ["status" => "ok", "binStatus" => "ok"],
                 "gameOverSound" => ["status" => "ok", "binStatus" => "ok"],
-                "tapeLoadSound" => ["status" => "prepare", "binStatus" => "ok"],
+                "tapeLoadSound" => ["status" => "prepare", "binStatus" => "false"],
                 "pressKeyboardSound" => ["status" => "ok", "binStatus" => "false"]
             ];
             foreach($buttons as $key => $value) {

@@ -3833,7 +3833,7 @@ class AudioHandler {
           if (soundData[y][x] == '0') {
             this.buffer[this.frames] = 0;
           } else {
-            this.buffer[this.frames] = 0.35355499386787415;
+            this.buffer[this.frames] = 0.3; //0.35355499386787415;
           }
           this.frames++;
         }
