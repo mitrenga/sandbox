@@ -17,7 +17,7 @@
                 "introMusic" => ["status" => "ok", "binStatus" => "ok"],
                 "gameMusic" => ["status" => "ok", "binStatus" => "ok"],
                 "jumpSound" => ["status" => "ok", "binStatus" => "ok"],
-                "fallingSound" => ["status" => "prepare", "binStatus" => "ok"],
+                "fallingSound" => ["status" => "ok", "binStatus" => "ok"],
                 "crashSound" => ["status" => "ok", "binStatus" => "ok"],
                 "gameOverSound" => ["status" => "ok", "binStatus" => "ok"],
                 "airSupplySound" => ["status" => "ok", "binStatus" => "ok"],

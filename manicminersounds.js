@@ -3968,37 +3968,37 @@ class AudioHandler {
   } // jumpSoundPlay
 
   fallingSoundPlay(pos) {
+    var k = Math.round(this.audioContext.sampleRate/441)/100;
     if (pos == 0) {
       this.frames = 0;
 
-      var k = Math.round(this.audioContext.sampleRate/658)/100;
       var delayFrames = Math.round(this.audioContext.sampleRate/12.6);
 
       var a = 0;
       var p = 0;
-      for (var x = 0; x < 28; x++) {
-        for (var o = 0; o < 15; o++) {
-          var d = Math.round(2*(5+p%16+8)*k);
-          for (var y = 0; y < d*2; y++) {
-            if (y%d == 0) {
-              a = Math.abs(a-1);
-            }
-            this.buffer[Math.round(this.frames)] = ((a == 0) ? 0.0 : 0.3);
-            this.frames++;
-          }
+      for (var x = 0; x < 20; x++) {
+        p++;
+        if (p == 16) {
+          p = 0;
         }
-        a = 1; //Math.abs(a-1);
+        var c = 32;
+        do {
+          var d = Math.round(7+2.2*p);
+          do { 
+            this.buffer[Math.round(this.frames*k)] = ((a == 0) ? 0.0 : 0.3);
+            this.frames++;
+            d--;
+          } while (d > 0)
+          a = Math.abs(a-1);
+          c--;
+        } while (c > 0)
         for (var delay = 0; delay < delayFrames; delay++) {
           this.buffer[Math.round(this.frames)] = ((a == 0) ? 0.0 : 0.3);
           this.frames++;
         }
-        p++;
-        if (p == 16) {
-          p = 12;
-        }
       }
     }
-    if (pos > this.frames) {
+    if (pos > this.frames*k) {
       return false;
     }
     return this.buffer[pos];
