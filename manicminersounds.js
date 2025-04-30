@@ -3972,12 +3972,13 @@ class AudioHandler {
       this.frames = 0;
 
       var k = Math.round(this.audioContext.sampleRate/658)/100;
-      var delayFrames = Math.round(this.audioContext.sampleRate/13.78125);
+      var delayFrames = Math.round(this.audioContext.sampleRate/12.6);
 
       var a = 0;
-      for (var x = 0; x < 24; x++) {
+      var p = 0;
+      for (var x = 0; x < 28; x++) {
         for (var o = 0; o < 15; o++) {
-          var d = Math.round(2*(5+x%20+8)*k);
+          var d = Math.round(2*(5+p%16+8)*k);
           for (var y = 0; y < d*2; y++) {
             if (y%d == 0) {
               a = Math.abs(a-1);
@@ -3986,10 +3987,14 @@ class AudioHandler {
             this.frames++;
           }
         }
-        a = Math.abs(a-1);
+        a = 1; //Math.abs(a-1);
         for (var delay = 0; delay < delayFrames; delay++) {
           this.buffer[Math.round(this.frames)] = ((a == 0) ? 0.0 : 0.3);
           this.frames++;
+        }
+        p++;
+        if (p == 16) {
+          p = 12;
         }
       }
     }

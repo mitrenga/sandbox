@@ -15,7 +15,7 @@
             ];
             $buttons = [
                 "introMusic" => ["status" => "ok", "binStatus" => "ok"],
-                "screechSound" => ["status" => "prepare", "binStatus" => "ok"],
+                "screechSound" => ["status" => "ok", "binStatus" => "ok"],
                 "gameMusic7" => ["status" => "ok", "binStatus" => "ok"],
                 "gameMusic6" => ["status" => "ok", "binStatus" => "ok"],
                 "gameMusic5" => ["status" => "ok", "binStatus" => "ok"],
@@ -27,7 +27,7 @@
                 "itemSound" => ["status" => "ok", "binStatus" => "ok"],
                 "arrowSound" => ["status" => "ok", "binStatus" => "ok"],
                 "jumpSound" => ["status" => "ok", "binStatus" => "ok"],
-                "fallingSound" => ["status" => "prepare", "binStatus" => "ok"],
+                "fallingSound" => ["status" => "ok", "binStatus" => "ok"],
                 "crashSound" => ["status" => "ok", "binStatus" => "ok"],
                 "gameOverSound" => ["status" => "ok", "binStatus" => "ok"],
                 "tapeLoadSound" => ["status" => "prepare", "binStatus" => "false"],

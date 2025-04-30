@@ -12,6 +12,7 @@
                 "manicminersounds" => ["icon" => "♫", "text" => "MANIC MINER", "color" => "gold"],
                 "jetsetwillysounds" => ["icon" => "♫", "text" => "JET SET WILLY", "color" => "gold"],
                 "music" => ["icon" => "♫", "text" => "MUSIC", "color" => "orange"],
+                "audioworklet" => ["icon" => "♫", "text" => "AUDIO WORKLET", "color" => "yellow"],
                 "convert" => ["icon" => "⿻", "text" => "CONVERT", "color" => "plum"]
             ];
             foreach($buttons as $key => $value) {
