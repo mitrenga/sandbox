@@ -31,7 +31,7 @@
                 "crashSound" => ["status" => "ok", "binStatus" => "ok"],
                 "gameOverSound" => ["status" => "ok", "binStatus" => "ok"],
                 "tapeLoadSound" => ["status" => "prepare", "binStatus" => "false"],
-                "pressKeyboardSound" => ["status" => "ok", "binStatus" => "false"]
+                "beepSound" => ["status" => "ok", "binStatus" => "false"]
             ];
             foreach($buttons as $key => $value) {
                 if ($value["status"] != "false") {
