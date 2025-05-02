@@ -3759,8 +3759,7 @@ class AudioHandler {
               if (this.playing)
               {
                 this.playing = false;
-                document.getElementById('log').innerHTML = 'total time: '+Math.round(((this.pos+x)/this.audioContext.sampleRate)*1000)/1000+' sec';
-                document.getElementById('log').innerHTML = this.analyze();
+                document.getElementById('log').innerHTML = 'total time: '+Math.round(((this.pos+x)/this.audioContext.sampleRate)*1000)/1000+' sec<br>'+this.analyze();
               }
             }
           }
@@ -4032,7 +4031,7 @@ class AudioHandler {
   } // fallingSoundPlay
   
   crashSoundPlay(pos) {
-    var k = Math.round(this.audioContext.sampleRate/2940)/100;
+    var k = Math.round(this.audioContext.sampleRate/2600)/100;
     if (pos == 0) {
       this.frames = 0;
 
@@ -4056,7 +4055,7 @@ class AudioHandler {
           this.buffer[Math.round(this.frames*k)] = ((a == 0) ? 0.0 : 0.3);
           this.frames++;
         }
-        a = Math.abs(a-1);
+        a = 0;
         value--;
       }
     }
@@ -4099,7 +4098,7 @@ class AudioHandler {
   } // gameOverSoundPlay
   
   airSupplySoundPlay(pos) {
-    var k = Math.round(this.audioContext.sampleRate/2300)/100;
+    var k = Math.round(this.audioContext.sampleRate/285)/1000;
 
     if (pos == 0) {
       this.frames = 0;
@@ -4107,20 +4106,23 @@ class AudioHandler {
       var a = 0;
       for (var x = 51; x > 35; x--) { // 63 .. 36 air supply
         for (var p = 252; p > 0; p=p-4) { // 252 game clock
-        for (var c = 0; c < 7; c++) {
-          var d = Math.round(2*(63-x));
-          for (var y = 0; y < d; y++) {
-            this.buffer[Math.round(this.frames*k)] = ((a == 0) ? 0.0 : 0.3);
+          for (var c = 0; c < 4; c++) {
+            var d = Math.round(2*(63-x));
+            for (var y = 0; y < d; y++) {
+              this.buffer[Math.round(this.frames*k)] = 0;
+              this.frames++;
+            }
+            for (var y = 0; y < d; y++) {
+              this.buffer[Math.round(this.frames*k)] = 0.3;
+              this.frames++;
+            }
+          }
+          for (var y = 0; y < 233+d; y++) {
+            this.buffer[Math.round(this.frames*k)] = 0.3;
             this.frames++;
           }
           a = Math.abs(a-1);
         }
-        for (var y = 0; y < 210+d; y++) {
-          this.buffer[Math.round(this.frames*k)] = ((a == 0) ? 0.0 : 0.3);
-          this.frames++;
-        }
-        a = Math.abs(a-1);
-      }
       }
     }
 
