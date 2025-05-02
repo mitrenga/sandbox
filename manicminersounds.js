@@ -3760,6 +3760,7 @@ class AudioHandler {
               {
                 this.playing = false;
                 document.getElementById('log').innerHTML = 'total time: '+Math.round(((this.pos+x)/this.audioContext.sampleRate)*1000)/1000+' sec';
+                document.getElementById('log').innerHTML = this.analyze();
               }
             }
           }
@@ -3770,6 +3771,32 @@ class AudioHandler {
 
       this.isActive = true;
   } // start
+
+  analyze() {
+    var result = '';
+    var prevCh = 0;
+    var x = 0;
+    var l = 0;
+    var ch = this.getSoundData(x);
+    x++;
+    var c = 0;
+    while (ch !== false) {
+      if (ch === false || ch != prevCh) {
+        if (prevCh === 0) {
+          l++;
+          result = result+l+') '+c+'*'+((prevCh == 0) ? '0' : '1')+' - ';
+        } else {
+          result = result+c+'*'+((prevCh == 0) ? '0' : '1')+' '+x+'<br>';
+        }
+        c = 0;
+        prevCh = ch;
+      }
+      c++;
+      ch = this.getSoundData(x);
+      x++;
+    }
+    return result;
+  } // analyze
 
   stop() {
     this.scriptNode.disconnect(this.audioContext.destination);
