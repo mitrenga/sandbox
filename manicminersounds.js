@@ -4098,7 +4098,7 @@ class AudioHandler {
   } // gameOverSoundPlay
   
   airSupplySoundPlay(pos) {
-    var k = Math.round(this.audioContext.sampleRate/285)/1000;
+    var k = Math.round(this.audioContext.sampleRate/281)/1000;
 
     if (pos == 0) {
       this.frames = 0;
