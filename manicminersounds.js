@@ -4105,7 +4105,7 @@ class AudioHandler {
 
       var a = 0;
       for (var x = 51; x > 35; x--) { // 63 .. 36 air supply
-        for (var p = 252; p > 0; p=p-4) { // 252 game clock
+        for (var p = 63; p > 0; p--) {
           for (var c = 0; c < 4; c++) {
             var d = Math.round(2*(63-x));
             for (var y = 0; y < d; y++) {
