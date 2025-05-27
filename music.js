@@ -139,7 +139,7 @@ class AudioHandler {
 
   start() {
     const AudioContext = window.AudioContext || window.webkitAudioContext;
-    this.audioContext = new AudioContext({latencyHint: 'interactive', sampleRate:44100});
+    this.audioContext = new AudioContext();
 
     this.isActive = true;
     switch (this.source) {

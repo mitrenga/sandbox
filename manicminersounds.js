@@ -4288,8 +4288,8 @@ class AudioHandler {
 
 var audioHandler = null;
 
-function start(source)
-{
+
+function start(source) {
   if (!audioHandler) {
     audioHandler = new AudioHandler();
     audioHandler.source = source;
